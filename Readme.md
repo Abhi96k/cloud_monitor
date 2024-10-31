@@ -186,5 +186,16 @@ aws ecr delete-repository --repository-name flask-monitoring-repo --force
 <h2>Conclusion</h2>
 <p>This guide covers deploying a simple Flask application on Amazon EKS using ECR for container storage. With these steps, you can easily scale and manage your application on AWS.</p>
 
+# CPU Usage Line Chart
+
+<img src="cpu_use_line_curv.png" alt="Image Description" width="600"/>
+
+# memory Usage Line Chart
+
+<img src="memory_use_line_curve.png" alt="Image Description" width="600"/>
+
+<img src="newplot.png" alt="Image Description" width="600"/>
+<img src="image.png" alt="Image Description" width="600"/>
+
 </body>
 </html>
