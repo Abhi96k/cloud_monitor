@@ -188,11 +188,11 @@ aws ecr delete-repository --repository-name flask-monitoring-repo --force
 
 # CPU Usage Line Chart
 
-<img src="cpu_use_line_curv.png" alt="Image Description" width="600"/>
+<img src="cpu_use_line_curv.png" alt="Image Description" width="600" height="400"/>
 
 # memory Usage Line Chart
 
-<img src="memory_use_line_curve.png" alt="Image Description" width="600"/>
+<img src="memory_use_line_curve.png" alt="Image Description" width="600" height="400"/>
 
 <img src="newplot.png" alt="Image Description" width="600"/>
 <img src="image.png" alt="Image Description" width="600"/>
