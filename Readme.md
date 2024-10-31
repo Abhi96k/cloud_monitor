@@ -56,9 +56,22 @@ CMD ["python", "app.py"]
 </code></pre>
 
 <p>Create a <code>requirements.txt</code> file for Flask.</p>
-<pre><code># requirements.txt
-flask
-</code></pre>
+<pre>
+<code># requirements.txt
+flask==2.0.1
+Flask==2.2.3
+MarkupSafe==2.1.2
+Werkzeug==2.2.3
+itsdangerous==2.1.2
+psutil==5.8.0
+boto3==1.9.148
+kubernetes==10.0.1
+plotly==5.5.0
+tenacity==8.0.1
+gunicorn==20.1.0
+
+</code>
+</pre>
 
 <h3>3. Build and Push the Docker Image to Amazon ECR</h3>
 <ol>
