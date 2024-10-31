@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>System Monitoring</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <style>
+      .plotly-graph-div {
+        margin: auto;
+        width: 50%;
+        background-color: rgba(151, 128, 128, 0.688);
+        padding: 20px;
+      }
+      .refresh-btn {
+        margin: 10px auto;
+        display: block;
+        padding: 8px 16px;
+        font-size: 16px;
+        cursor: pointer;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>System Monitoring</h1>
+      <button class="refresh-btn" onclick="refreshMetrics()">
+        Refresh Data
+      </button>
+      <div id="cpu-gauge"></div>
+      <div id="mem-gauge"></div>
+      <div id="cpu-line"></div>
+      <div id="mem-line"></div>
+      {% if message %}
+      <div class="alert alert-danger">{{ message }}</div>
+      {% endif %}
+    </div>
+    <script>
+      var updateInterval = 1200;
+
+      function createGauge(id, title, value) {
+        return {
+          type: "indicator",
+          mode: "gauge+number",
+          value: value,
+          gauge: {
+            axis: { range: [null, 100] },
+            bar: { color: "#1f77b4" },
+            bgcolor: "white",
+            borderwidth: 2,
+            bordercolor: "#ccc",
+            steps: [
+              { range: [0, 50], color: "#d9f0a3" },
+              { range: [50, 85], color: "#ffeb84" },
+              { range: [85, 100], color: "#ff5f5f" },
+            ],
+            threshold: {
+              line: { color: "red", width: 4 },
+              thickness: 0.75,
+              value: value,
+            },
+          },
+        };
+      }
+
+      function updateGauges(cpu, mem) {
+        Plotly.newPlot(
+          "cpu-gauge",
+          [createGauge("cpu-gauge", "CPU Utilization", cpu)],
+          { title: "CPU Utilization" }
+        );
+        Plotly.newPlot(
+          "mem-gauge",
+          [createGauge("mem-gauge", "Memory Utilization", mem)],
+          { title: "Memory Utilization" }
+        );
+      }
+
+      function updateLineCharts(timeHistory, cpuHistory, memHistory) {
+        // CPU Line Chart
+        Plotly.newPlot(
+          "cpu-line",
+          [
+            {
+              x: timeHistory,
+              y: cpuHistory,
+              type: "scatter",
+              mode: "lines+markers",
+              name: "CPU Usage",
+              line: { shape: "spline" },
+            },
+          ],
+          { title: "CPU Usage Over Time" }
+        );
+
+        // Memory Line Chart
+        Plotly.newPlot(
+          "mem-line",
+          [
+            {
+              x: timeHistory,
+              y: memHistory,
+              type: "scatter",
+              mode: "lines+markers",
+              name: "Memory Usage",
+              line: { shape: "spline" },
+            },
+          ],
+          { title: "Memory Usage Over Time" }
+        );
+      }
+
+      function refreshMetrics() {
+        fetch("/metrics")
+          .then((response) => response.json())
+          .then((data) => {
+            updateGauges(data.cpu_metric, data.mem_metric);
+            updateLineCharts(
+              data.time_history,
+              data.cpu_history,
+              data.mem_history
+            );
+          })
+          .catch((error) => console.error("Error fetching metrics:", error));
+      }
+
+      // Initial load
+      refreshMetrics();
+
+      // Set interval for auto-refresh
+      setInterval(refreshMetrics, updateInterval);
+    </script>
+  </body>
+</html>
