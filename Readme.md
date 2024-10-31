@@ -188,7 +188,7 @@ aws ecr delete-repository --repository-name flask-monitoring-repo --force
 
 # architecture diagram:-
 
-<img src="aws_arch.png" alt="Image Description" width="600" height="500"/>
+<img src="aws_arch.png" alt="Image Description" width="600" height="400"/>
 
 # CPU Usage Line Chart
 
