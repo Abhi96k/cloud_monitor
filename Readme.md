@@ -42,17 +42,24 @@ app.run(host="0.0.0.0", port=5000)
 <h3>2. Dockerize the Application</h3>
 <p>Create a Dockerfile for the Flask app.</p>
 <pre><code># Dockerfile
-FROM python:3.9-slim
+# Use the Python 3.9 image
+
+FROM python:3.9-slim-buster
 
 WORKDIR /app
 
 COPY requirements.txt .
-RUN pip install -r requirements.txt
+
+RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+ENV FLASK_RUN_HOST=0.0.0.0
+
 EXPOSE 5000
-CMD ["python", "app.py"]
+
+CMD ["gunicorn", "--bind", "0.0.0.0:5000", "app:app"]
+
 </code></pre>
 
 <p>Create a <code>requirements.txt</code> file for Flask.</p>
