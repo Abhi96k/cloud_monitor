@@ -205,6 +205,5 @@ aws ecr delete-repository --repository-name flask-monitoring-repo --force
   <source src="video.mp4" type="video/mp4">
 </video>
 
-
 </body>
 </html>
